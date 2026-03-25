@@ -1,0 +1,39 @@
+%{
+#include<stdio.h>
+#include<stdlib.h>
+%}
+
+/* Definitions */
+digit   [0-9]
+letter  [a-zA-Z]
+id      {letter}({letter}|{digit})*
+
+%%
+
+"int"|"float"|"char"|"void"|"main"|"printf"
+        { printf("Keyword: %s\n", yytext); }
+
+{id}    { printf("Identifier: %s\n", yytext); }
+
+{digit}+ { printf("Integer: %s\n", yytext); }
+
+{digit}+"."{digit}*
+        { printf("Float: %s\n", yytext); }
+
+"+"|"-"|"*"|"/"|"="
+        { printf("Operator: %s\n", yytext); }
+
+";"|"("|")"|"{"|"}"
+        { printf("Punctuation: %s\n", yytext); }
+
+[ \t\n]    ;   // Ignore spaces
+
+.           { printf("Unknown: %s\n", yytext); }
+
+%%
+
+int main() {
+    printf("Enter input:\n");
+    yylex();
+    return 0;
+}
